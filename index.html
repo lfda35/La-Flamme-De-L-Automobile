@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Flamme De L'Automobile</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bleu: #0a2463;
+    --bleu-clair: #1e4db7;
+    --bleu-vif: #2563eb;
+    --accent: #60a5fa;
+    --blanc: #f8faff;
+    --gris: #e8edf7;
+    --texte: #0f1b3d;
+    --doux: #6b7a99;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--blanc); color: var(--texte); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10, 36, 99, 0.97);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 6vw; height: 68px;
+    border-bottom: 1px solid rgba(96,165,250,0.15);
+  }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #fff; letter-spacing: 0.08em; text-decoration: none; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links span { color: rgba(255,255,255,0.75); font-size: 0.88rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+  .nav-cta { background: var(--bleu-vif); color: #fff !important; padding: 0.5rem 1.3rem; border-radius: 6px; }
+
+  #accueil {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #050f2c 0%, #0a2463 55%, #1e3a8a 100%);
+    display: flex; align-items: center;
+    position: relative; overflow: hidden; padding-top: 68px;
+  }
+  .hero-bg-lines {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(96,165,250,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(96,165,250,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-circle {
+    position: absolute; right: -10vw; top: 50%; transform: translateY(-50%);
+    width: 65vw; height: 65vw; max-width: 800px; max-height: 800px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(37,99,235,0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 2; padding: 0 8vw; max-width: 680px; }
+  .hero-tag {
+    display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent);
+    border: 1px solid rgba(96,165,250,0.4); padding: 0.35rem 1rem; border-radius: 20px;
+    margin-bottom: 1.8rem; animation: fadeUp 0.6s ease both;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.5rem, 7vw, 6rem);
+    line-height: 0.95; color: #fff; letter-spacing: 0.02em; margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero-title span { color: var(--accent); }
+  .hero-sub { font-size: 1.05rem; line-height: 1.7; color: rgba(255,255,255,0.65); max-width: 500px; margin-bottom: 2.5rem; font-weight: 300; animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+  .btn-primary { background: var(--bleu-vif); color: #fff; padding: 0.85rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; border: 2px solid var(--bleu-vif); display: inline-block; }
+  .btn-outline { background: transparent; color: rgba(255,255,255,0.85); padding: 0.85rem 2rem; border-radius: 8px; font-weight: 500; font-size: 0.95rem; border: 2px solid rgba(255,255,255,0.25); display: inline-block; }
+  .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; animation: fadeUp 0.6s 0.4s ease both; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--accent); line-height: 1; }
+  .stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.25rem; }
+
+  section { padding: 100px 8vw; }
+  .section-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bleu-vif); margin-bottom: 0.8rem; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.2rem, 4vw, 3.2rem); color: var(--bleu); letter-spacing: 0.02em; line-height: 1.05; margin-bottom: 1.2rem; }
+  .section-sub { font-size: 1rem; color: var(--doux); line-height: 1.7; max-width: 560px; font-weight: 300; }
+
+  #fonctionnement { background: var(--blanc); }
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-top: 3.5rem; }
+  .step-card { background: #fff; border: 1px solid var(--gris); border-radius: 16px; padding: 2.2rem; position: relative; transition: transform 0.25s, box-shadow 0.25s; }
+  .step-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(10,36,99,0.1); }
+  .step-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; line-height: 1; color: var(--gris); position: absolute; top: 1.5rem; right: 1.8rem; }
+  .step-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .step-title { font-weight: 700; font-size: 1.05rem; color: var(--bleu); margin-bottom: 0.6rem; }
+  .step-desc { font-size: 0.9rem; line-height: 1.65; color: var(--doux); }
+
+  #services { background: #f0f4ff; }
+  .services-header { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 3.5rem; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.8rem; }
+  .pricing-card { background: #fff; border-radius: 20px; padding: 2.5rem; border: 2px solid transparent; transition: all 0.25s; position: relative; overflow: hidden; }
+  .pricing-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--gris); transition: background 0.25s; }
+  .pricing-card:hover { border-color: var(--bleu-vif); transform: translateY(-4px); }
+  .pricing-card:hover::before { background: var(--bleu-vif); }
+  .pricing-card.featured { background: var(--bleu); color: #fff; border-color: var(--bleu); }
+  .pricing-card.featured::before { background: var(--accent); }
+  .pricing-emoji { font-size: 1.8rem; margin-bottom: 1rem; }
+  .pricing-name { font-weight: 700; font-size: 1.1rem; color: var(--bleu); margin-bottom: 0.4rem; }
+  .pricing-card.featured .pricing-name { color: var(--accent); }
+  .pricing-desc { font-size: 0.88rem; color: var(--doux); margin-bottom: 1.5rem; line-height: 1.6; }
+  .pricing-card.featured .pricing-desc { color: rgba(255,255,255,0.6); }
+  .pricing-price { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--bleu-vif); line-height: 1; }
+  .pricing-card.featured .pricing-price { color: var(--accent); }
+  .pricing-unit { font-size: 0.8rem; color: var(--doux); margin-top: 0.2rem; }
+  .pricing-card.featured .pricing-unit { color: rgba(255,255,255,0.5); }
+  .pricing-features { list-style: none; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .pricing-features li { font-size: 0.88rem; color: var(--doux); display: flex; align-items: center; gap: 0.6rem; }
+  .pricing-card.featured .pricing-features li { color: rgba(255,255,255,0.75); }
+  .pricing-features li::before { content: '✓'; color: var(--bleu-vif); font-weight: 700; flex-shrink: 0; }
+  .pricing-card.featured .pricing-features li::before { color: var(--accent); }
+
+  #pourquoi { background: var(--blanc); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-top: 3.5rem; }
+  .why-visual { background: linear-gradient(135deg, var(--bleu) 0%, var(--bleu-clair) 100%); border-radius: 24px; padding: 3rem; color: #fff; position: relative; overflow: hidden; }
+  .why-visual::after { content: '🔥'; position: absolute; bottom: -1rem; right: 1rem; font-size: 8rem; opacity: 0.1; pointer-events: none; }
+  .why-visual-title { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent); }
+  .why-points { display: flex; flex-direction: column; gap: 1.2rem; }
+  .why-point { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 1rem 1.3rem; font-size: 0.9rem; line-height: 1.5; }
+  .why-point strong { color: var(--accent); display: block; margin-bottom: 0.2rem; }
+  .why-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .why-item { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .why-item-icon { width: 48px; height: 48px; border-radius: 12px; background: #eef2ff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+  .why-item-title { font-weight: 700; color: var(--bleu); margin-bottom: 0.3rem; }
+  .why-item-desc { font-size: 0.88rem; color: var(--doux); line-height: 1.6; }
+
+  #contact { background: linear-gradient(135deg, #050f2c 0%, #0a2463 100%); color: #fff; }
+  .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .contact-info .section-title { color: #fff; }
+  .contact-info .section-sub { color: rgba(255,255,255,0.55); }
+  .contact-detail { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-item { display: flex; align-items: center; gap: 1rem; font-size: 0.95rem; color: rgba(255,255,255,0.7); }
+  .contact-item-icon { width: 42px; height: 42px; background: rgba(96,165,250,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+  .form-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2.5rem; backdrop-filter: blur(10px); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.2rem; }
+  .form-group label { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  .form-group input, .form-group select, .form-group textarea { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 0.85rem 1rem; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.92rem; outline: none; transition: border-color 0.2s; width: 100%; }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+  .form-group select option { background: var(--bleu); }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+  .form-submit { width: 100%; background: var(--bleu-vif); color: #fff; border: none; padding: 1rem; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; letter-spacing: 0.04em; transition: all 0.2s; margin-top: 0.5rem; }
+  .form-submit:hover { background: var(--accent); color: var(--bleu); }
+  .success-msg { display: none; background: rgba(96,165,250,0.15); border: 1px solid var(--accent); border-radius: 10px; padding: 1rem 1.3rem; color: var(--accent); font-size: 0.9rem; text-align: center; margin-top: 1rem; }
+
+  footer { background: #020b20; padding: 2rem 8vw; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-top: 1px solid rgba(96,165,250,0.08); }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: rgba(255,255,255,0.4); }
+  .footer-logo span { color: rgba(96,165,250,0.5); }
+  footer p { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    section { padding: 70px 6vw; }
+    .why-grid, .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-stats { gap: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#accueil" class="nav-logo">La Flamme <span>De L'Auto</span></a>
+  <ul class="nav-links">
+    <li><span>Accueil</span></li>
+    <li><span>Comment ça marche</span></li>
+    <li><span>Nos offres</span></li>
+    <li><span>Pourquoi nous</span></li>
+    <li><span class="nav-cta">Me contacter</span></li>
+  </ul>
+</nav>
+
+<section id="accueil">
+  <div class="hero-bg-lines"></div>
+  <div class="hero-circle"></div>
+  <div class="hero-content">
+    <div class="hero-tag">🔥 Intermédiation Automobile Indépendante</div>
+    <h1 class="hero-title">Trouvez la<br><span>bonne voiture</span><br>au bon prix.</h1>
+    <p class="hero-sub">La Flamme De L'Automobile analyse le marché pour vous, sélectionne les meilleures opportunités et vous met en relation avec les bons vendeurs. Vous gagnez du temps. Nous faisons le travail.</p>
+    <div class="hero-btns">
+      <span class="btn-primary">Découvrir nos offres</span>
+      <span class="btn-outline">Démarrer ma recherche</span>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">100%</div><div class="stat-label">Indépendant</div></div>
+      <div><div class="stat-num">48h</div><div class="stat-label">Délai de sélection</div></div>
+      <div><div class="stat-num">0€</div><div class="stat-label">De stock risqué</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="fonctionnement">
+  <div class="section-tag">Le processus</div>
+  <h2 class="section-title">Comment ça<br>marche ?</h2>
+  <p class="section-sub">Un accompagnement simple et transparent, de la définition de votre besoin à la mise en relation avec le vendeur.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-icon">🎯</div>
+      <div class="step-title">Analyse de votre besoin</div>
+      <div class="step-desc">Vous définissez votre budget, le modèle souhaité, les critères importants (motorisation, kilométrage, options). On part de là.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-icon">🔍</div>
+      <div class="step-title">Recherche & analyse du marché</div>
+      <div class="step-desc">J'analyse les annonces disponibles, vérifie la cohérence des prix et élimine les offres à risque ou surcotées.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-icon">📋</div>
+      <div class="step-title">Sélection personnalisée</div>
+      <div class="step-desc">Vous recevez une sélection d'annonces qualifiées, avec mon analyse pour chaque véhicule et des conseils de négociation.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-icon">🤝</div>
+      <div class="step-title">Mise en relation</div>
+      <div class="step-desc">Vous entrez en contact directement avec le vendeur. La transaction se fait entre vous deux, en toute transparence.</div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-tag">Nos offres</div>
+      <h2 class="section-title">Choisissez votre<br>formule</h2>
+    </div>
+    <p class="section-sub">Des prestations claires, sans surprise. Vous payez uniquement pour le service, pas pour la voiture.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-emoji">🔍</div>
+      <div class="pricing-name">Recherche Express</div>
+      <div class="pricing-desc">Idéal pour avoir une première sélection rapide sur votre recherche.</div>
+      <div class="pricing-price">49€</div>
+      <div class="pricing-unit">Paiement unique</div>
+      <ul class="pricing-features">
+        <li>5 annonces sélectionnées</li>
+        <li>Analyse prix / marché</li>
+        <li>Livraison sous 48h</li>
+        <li>Conseils par message</li>
+      </ul>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-emoji">🚗</div>
+      <div class="pricing-name">Accompagnement Achat</div>
+      <div class="pricing-desc">L'offre la plus complète pour sécuriser votre achat de A à Z.</div>
+      <div class="pricing-price">99€</div>
+      <div class="pricing-unit">Paiement en 2 fois possible</div>
+      <ul class="pricing-features">
+        <li>Recherche approfondie</li>
+        <li>Analyse détaillée des annonces</li>
+        <li>Conseils de négociation</li>
+        <li>Suivi jusqu'à l'achat</li>
+        <li>Garantie satisfaction</li>
+      </ul>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-emoji">⭐</div>
+      <div class="pricing-name">Mission Complète</div>
+      <div class="pricing-desc">Pour les recherches complexes ou les véhicules spécifiques difficiles à trouver.</div>
+      <div class="pricing-price">149€</div>
+      <div class="pricing-unit">Sur devis selon complexité</div>
+      <ul class="pricing-features">
+        <li>Tout de la formule Accompagnement</li>
+        <li>Vérification historique véhicule</li>
+        <li>Négociation pour vous</li>
+        <li>Suivi prioritaire</li>
+        <li>Accompagnement illimité</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="pourquoi">
+  <div class="section-tag">Nos avantages</div>
+  <h2 class="section-title">Pourquoi La Flamme<br>De L'Automobile ?</h2>
+  <div class="why-grid">
+    <div class="why-visual">
+      <div class="why-visual-title">Mon engagement</div>
+      <div class="why-points">
+        <div class="why-point"><strong>Indépendance totale</strong>Je ne vends aucun véhicule, je n'ai aucun intérêt financier dans la transaction. Mon seul objectif : trouver ce qui vous convient.</div>
+        <div class="why-point"><strong>Expertise marché</strong>Analyse rigoureuse des prix, détection des anomalies, identification des bonnes affaires. Je connais le marché.</div>
+        <div class="why-point"><strong>Gain de temps réel</strong>Vous n'avez plus à éplucher des dizaines d'annonces douteuses. Je fais le tri pour vous.</div>
+      </div>
+    </div>
+    <div class="why-list">
+      <div class="why-item">
+        <div class="why-item-icon">🛡️</div>
+        <div><div class="why-item-title">Aucun risque pour vous</div><div class="why-item-desc">Je n'interviens pas dans la transaction. Vous traitez directement avec le vendeur, sans intermédiaire caché.</div></div>
+      </div>
+      <div class="why-item">
+        <div class="why-item-icon">📊</div>
+        <div><div class="why-item-title">Analyse de marché sérieuse</div><div class="why-item-desc">Chaque véhicule est analysé : historique, prix du marché, risques potentiels. Rien n'est laissé au hasard.</div></div>
+      </div>
+      <div class="why-item">
+        <div class="why-item-icon">⚡</div>
+        <div><div class="why-item-title">Réactivité & disponibilité</div><div class="why-item-desc">Service réactif, réponse rapide, suivi régulier. Vous n'êtes jamais laissé sans nouvelles.</div></div>
+      </div>
+      <div class="why-item">
+        <div class="why-item-icon">💰</div>
+        <div><div class="why-item-title">Tarifs accessibles</div><div class="why-item-desc">Des prestations à prix justes, sans frais cachés. Un investissement qui peut vous faire économiser bien plus.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <div class="section-tag" style="color: var(--accent);">Contact</div>
+      <h2 class="section-title">Démarrons votre<br>recherche</h2>
+      <p class="section-sub">Décrivez-moi votre projet, je vous réponds rapidement avec une première analyse.</p>
+      <div class="contact-detail">
+        <div class="contact-item"><div class="contact-item-icon">📧</div>laflammedelautomobile@gmail.com</div>
+        <div class="contact-item"><div class="contact-item-icon">📞</div>06 28 90 71 71</div>
+        <div class="contact-item"><div class="contact-item-icon">📸</div>Instagram : La Flamme De L'Automobile</div>
+        <div class="contact-item"><div class="contact-item-icon">⏱️</div>Réponse sous 24h</div>
+        <div class="contact-item"><div class="contact-item-icon">📍</div>Service disponible en France entière</div>
+      </div>
+    </div>
+    <div class="form-card">
+      <div class="form-row">
+        <div class="form-group"><label>Prénom</label><input type="text" placeholder="Votre prénom" id="f-prenom"></div>
+        <div class="form-group"><label>Nom</label><input type="text" placeholder="Votre nom" id="f-nom"></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="votre@email.fr" id="f-email"></div>
+      <div class="form-group">
+        <label>Formule souhaitée</label>
+        <select id="f-formule">
+          <option value="">Choisissez une formule...</option>
+          <option>Recherche Express — 49€</option>
+          <option>Accompagnement Achat — 99€</option>
+          <option>Mission Complète — à partir de 149€</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Budget & critères</label><textarea placeholder="Ex : Budget 8 000€, cherche une Golf 7, diesel, moins de 120 000 km..." id="f-message"></textarea></div>
+      <button class="form-submit" onclick="sendForm()">🔥 Envoyer ma demande</button>
+      <div class="success-msg" id="success-msg">✅ Votre demande a bien été reçue ! Ibrahim vous contacte dans les 24h.</div>
+    </div>
+  </div>
+</section>
+
+<section id="mentions" style="background:#f0f4ff; display:none;">
+  <div class="section-tag">Informations légales</div>
+  <h2 class="section-title">Mentions Légales</h2>
+  <div style="max-width:800px; margin-top:2.5rem; display:flex; flex-direction:column; gap:2rem;">
+    <div style="background:#fff; border-radius:16px; padding:2rem; border:1px solid var(--gris);">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--bleu); margin-bottom:1rem;">1. ÉDITEUR DU SITE</div>
+      <p style="font-size:0.92rem; color:var(--doux); line-height:1.75;">
+        <strong style="color:var(--texte);">Raison sociale :</strong> La Flamme De L'Automobile<br>
+        <strong style="color:var(--texte);">Statut :</strong> Micro-entreprise<br>
+        <strong style="color:var(--texte);">Gérant :</strong> Ibrahim Victor<br>
+        <strong style="color:var(--texte);">SIRET :</strong> 101 249 837 00010<br>
+        <strong style="color:var(--texte);">Activité :</strong> Intermédiation et courtage automobile<br>
+        <strong style="color:var(--texte);">Email :</strong> laflammedelautomobile@gmail.com<br>
+        <strong style="color:var(--texte);">Téléphone :</strong> 06 28 90 71 71<br>
+        <strong style="color:var(--texte);">Instagram :</strong> La Flamme De L'Automobile<br>
+        <strong style="color:var(--texte);">TVA :</strong> Non assujetti à la TVA — Article 293B du CGI
+      </p>
+    </div>
+    <div style="background:#fff; border-radius:16px; padding:2rem; border:1px solid var(--gris);">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--bleu); margin-bottom:1rem;">2. HÉBERGEMENT DU SITE</div>
+      <p style="font-size:0.92rem; color:var(--doux); line-height:1.75;">
+        <strong style="color:var(--texte);">Hébergeur :</strong> IONOS SE<br>
+        <strong style="color:var(--texte);">Adresse :</strong> 7, place de la Gare — BP 70109 — 57201 Sarreguemines Cedex<br>
+        <strong style="color:var(--texte);">Site :</strong> www.ionos.fr<br>
+        <strong style="color:var(--texte);">Téléphone :</strong> 0970 808 911
+      </p>
+    </div>
+    <div style="background:#fff; border-radius:16px; padding:2rem; border:1px solid var(--gris);">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--bleu); margin-bottom:1rem;">3. ACTIVITÉ & RESPONSABILITÉ</div>
+      <p style="font-size:0.92rem; color:var(--doux); line-height:1.75;">La Flamme De L'Automobile est une activité d'intermédiation indépendante. Elle n'achète, ne vend et ne stocke aucun véhicule. Elle ne participe pas directement aux transactions entre acheteurs et vendeurs et ne saurait être tenue responsable des vices cachés, de l'état des véhicules proposés, ni du comportement des vendeurs mis en relation.</p>
+    </div>
+    <div style="background:#fff; border-radius:16px; padding:2rem; border:1px solid var(--gris);">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--bleu); margin-bottom:1rem;">4. PROPRIÉTÉ INTELLECTUELLE</div>
+      <p style="font-size:0.92rem; color:var(--doux); line-height:1.75;">L'ensemble des contenus présents sur ce site (textes, visuels, structure, logo) est la propriété exclusive de La Flamme De L'Automobile. Toute reproduction, même partielle, est interdite sans autorisation préalable écrite.</p>
+    </div>
+    <div style="background:#fff; border-radius:16px; padding:2rem; border:1px solid var(--gris);">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--bleu); margin-bottom:1rem;">5. DONNÉES PERSONNELLES & RGPD</div>
+      <p style="font-size:0.92rem; color:var(--doux); line-height:1.75;">
+        Les données personnelles collectées via le formulaire de contact (nom, email, message) sont utilisées uniquement dans le but de répondre à votre demande. Elles ne sont jamais revendues ni transmises à des tiers.<br><br>
+        Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Pour exercer ces droits : <strong style="color:var(--texte);">laflammedelautomobile@gmail.com</strong>
+      </p>
+    </div>
+    <div style="background:#fff; border-radius:16px; padding:2rem; border:1px solid var(--gris);">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--bleu); margin-bottom:1rem;">6. COOKIES</div>
+      <p style="font-size:0.92rem; color:var(--doux); line-height:1.75;">Ce site n'utilise pas de cookies publicitaires ou de traçage. Des cookies techniques strictement nécessaires au bon fonctionnement du site peuvent être utilisés.</p>
+    </div>
+    <div style="background:#fff; border-radius:16px; padding:2rem; border:1px solid var(--gris);">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--bleu); margin-bottom:1rem;">7. DROIT APPLICABLE</div>
+      <p style="font-size:0.92rem; color:var(--doux); line-height:1.75;">Le présent site et ses mentions légales sont soumis au droit français. Tout litige relatif à l'utilisation du site relève de la compétence des tribunaux français.</p>
+    </div>
+  </div>
+  <div style="margin-top:2.5rem;">
+    <span class="btn-primary" onclick="hideMentions()" style="cursor:pointer;">← Retour au site</span>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">La Flamme <span>De L'Automobile</span></div>
+  <p>SIRET : 101 249 837 00010 — Ibrahim Victor, Gérant</p>
+  <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
+    <p>© 2025 La Flamme De L'Automobile</p>
+    <span onclick="showMentions()" style="font-size:0.8rem; color:rgba(255,255,255,0.35); text-decoration:underline; cursor:pointer;">Mentions légales</span>
+  </div>
+</footer>
+
+<script>
+  async function sendForm() {
+    const prenom = document.getElementById('f-prenom').value.trim();
+    const nom = document.getElementById('f-nom').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const formule = document.getElementById('f-formule').value;
+    const message = document.getElementById('f-message').value.trim();
+    if (!prenom || !email) { alert('Veuillez remplir au minimum votre prénom et votre email.'); return; }
+    const btn = document.querySelector('.form-submit');
+    btn.disabled = true;
+    btn.textContent = '⏳ Envoi en cours...';
+    try {
+      const response = await fetch('https://formspree.io/f/xaqpbblz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ prenom, nom, email, formule: formule || 'Non précisée', message: message || 'Aucun message' })
+      });
+      if (response.ok) {
+        document.getElementById('success-msg').style.display = 'block';
+        btn.textContent = '✅ Demande envoyée';
+        btn.style.background = 'rgba(96,165,250,0.2)';
+      } else {
+        btn.disabled = false;
+        btn.textContent = '🔥 Envoyer ma demande';
+        alert("Une erreur s'est produite. Merci de réessayer ou de nous contacter directement par email.");
+      }
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = '🔥 Envoyer ma demande';
+      alert("Impossible d'envoyer le message. Vérifiez votre connexion et réessayez.");
+    }
+  }
+
+  function showMentions() {
+    document.querySelectorAll('section:not(#mentions)').forEach(s => s.style.display = 'none');
+    document.getElementById('mentions').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+  function hideMentions() {
+    document.getElementById('mentions').style.display = 'none';
+    document.querySelectorAll('section:not(#mentions)').forEach(s => s.style.removeProperty('display'));
+    document.getElementById('accueil').style.display = 'flex';
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
